@@ -1,0 +1,135 @@
+.nav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--color-deep);
+    border-bottom: 2px solid var(--color-teal);
+}
+
+.nav__inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+}
+
+.nav__brand {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--color-cream);
+}
+
+.nav__links {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.nav__link {
+    padding: 8px 12px;
+    border-radius: 999px;
+    color: var(--color-mint);
+    transition: all 0.15s ease;
+}
+
+.nav__link:hover {
+    background: var(--color-dark);
+    color: var(--color-cream);
+    transform: translateY(-1px);
+}
+
+.nav__link--active {
+    background: var(--color-teal);
+    color: white;
+}
+
+.nav__auth {
+    border-radius: 999px;
+    padding: 8px 16px;
+    font-weight: 700;
+}
+
+.nav__auth--login {
+    border: 2px solid var(--color-mint);
+    background: transparent;
+    color: var(--color-mint);
+}
+
+.nav__auth--login:hover {
+    background: var(--color-mint);
+    color: var(--color-deep);
+}
+
+.nav__auth--register {
+    background: linear-gradient(135deg, var(--color-gold), #f4c95d);
+    color: var(--color-deep);
+    border: 2px solid var(--color-gold);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.nav__auth--register:hover {
+    background: var(--color-cream);
+    border-color: var(--color-cream);
+    transform: translateY(-1px);
+}
+
+.nav__auth--register {
+    font-weight: 800;
+}
+
+.nav__user {
+    font-weight: 800;
+    color: var(--color-deep);
+    background: var(--color-cream);
+    border: 2px solid var(--color-cream);
+    cursor: default;
+    padding: 8px 16px;
+    border-radius: 999px;
+}
+
+.nav__logout {
+    border: 2px solid var(--color-mint);
+    background: transparent;
+    color: var(--color-mint);
+    font: inherit;
+    cursor: pointer;
+    padding: 8px 16px;
+    border-radius: 999px;
+}
+
+.nav__logout:hover {
+    background: var(--color-mint);
+    color: var(--color-deep);
+}
+
+@media (max-width: 700px) {
+    .nav__inner {
+        align-items: stretch;
+        flex-direction: column;
+        padding: 12px 14px;
+        gap: 10px;
+    }
+
+    .nav__brand {
+        font-size: 1.35rem;
+    }
+
+    .nav__links {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .nav__link {
+        flex: 1 1 calc(50% - 8px);
+        min-width: 120px;
+        text-align: center;
+        padding: 8px 10px;
+        font-size: 0.95rem;
+    }
+}

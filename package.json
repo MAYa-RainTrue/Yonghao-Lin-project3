@@ -1,0 +1,10 @@
+{
+  "name": "yonghao-lin-project3",
+  "private": true,
+  "workspaces": ["frontend", "backend"],
+  "scripts": {
+    "build": "npm install --workspaces && npm run build --workspace frontend",
+    "dev": "npm run dev --workspace backend",
+    "prod": "npm run prod --workspace backend"
+  }
+}

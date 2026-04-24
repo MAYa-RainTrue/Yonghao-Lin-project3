@@ -1,0 +1,65 @@
+.scores-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 28px 18px 40px;
+}
+
+.scores-page__card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-soft);
+    border-radius: 18px;
+    padding: 24px;
+    box-shadow: 0 10px 24px rgba(0, 18, 25, 0.06);
+}
+
+.scores-page__title {
+    margin: 0 0 20px;
+    font-size: 2rem;
+    color: var(--color-deep);
+}
+
+.scores-page__error {
+    color: var(--color-red);
+    margin: 0;
+}
+
+.scores-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.scores-table th,
+.scores-table td {
+    padding: 12px 14px;
+    text-align: left;
+    border-bottom: 1px solid #d7e4e7;
+}
+
+.scores-table th {
+    background: #eef5f6;
+    color: var(--color-deep);
+    font-weight: 700;
+}
+
+.scores-table tbody tr:hover {
+    background: #f8fbfb;
+}
+
+@media (max-width: 600px) {
+    .scores-page {
+        padding: 22px 14px 34px;
+    }
+
+    .scores-page__card {
+        padding: 18px;
+        overflow-x: auto;
+    }
+
+    .scores-page__title {
+        font-size: 1.7rem;
+    }
+
+    .scores-table {
+        min-width: 420px;
+    }
+}
