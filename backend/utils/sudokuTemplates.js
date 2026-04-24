@@ -27,44 +27,44 @@ function createNumberMap(size) {
 
 function remapNumbers(board, numberMap) {
     return board.map((row) =>
-        row.map((cell) => (cell === 0 ? 0 : numberMap.get(cell)))
+        row.map((cell) => numberMap.get(cell))
     );
 }
 
-function shuffleRowsWithinBands(board, bandSize) {
+function shuffleRowsWithinGroups(board, groupSize) {
     const result = [];
 
-    for (let start = 0; start < board.length; start += bandSize) {
-        const band = board.slice(start, start + bandSize);
-        result.push(...shuffleArray(band));
+    for (let start = 0; start < board.length; start += groupSize) {
+        const group = board.slice(start, start + groupSize);
+        result.push(...shuffleArray(group));
     }
 
     return result;
 }
 
-function shuffleBands(board, bandSize) {
-    const bands = [];
+function shuffleRowGroups(board, groupSize) {
+    const groups = [];
 
-    for (let start = 0; start < board.length; start += bandSize) {
-        bands.push(board.slice(start, start + bandSize));
+    for (let start = 0; start < board.length; start += groupSize) {
+        groups.push(board.slice(start, start + groupSize));
     }
 
-    return shuffleArray(bands).flat();
+    return shuffleArray(groups).flat();
 }
 
 function transpose(board) {
     return board[0].map((_, colIndex) => board.map((row) => row[colIndex]));
 }
 
-function randomizeSolution(solution, bandSize) {
+function randomizeSolution(solution, rowGroupSize, colGroupSize) {
     let result = cloneBoard(solution);
 
-    result = shuffleRowsWithinBands(result, bandSize);
-    result = shuffleBands(result, bandSize);
+    result = shuffleRowsWithinGroups(result, rowGroupSize);
+    result = shuffleRowGroups(result, rowGroupSize);
 
     result = transpose(result);
-    result = shuffleRowsWithinBands(result, bandSize);
-    result = shuffleBands(result, bandSize);
+    result = shuffleRowsWithinGroups(result, colGroupSize);
+    result = shuffleRowGroups(result, colGroupSize);
     result = transpose(result);
 
     result = remapNumbers(result, createNumberMap(solution.length));
@@ -115,7 +115,7 @@ const normalBaseSolution = [
 
 export function getTemplateByDifficulty(difficulty) {
     if (difficulty === "EASY") {
-        const solution = randomizeSolution(easyBaseSolution, 2);
+        const solution = randomizeSolution(easyBaseSolution, 2, 3);
         const board = removeCells(solution, 18);
 
         return {
@@ -124,7 +124,7 @@ export function getTemplateByDifficulty(difficulty) {
         };
     }
 
-    const solution = randomizeSolution(normalBaseSolution, 3);
+    const solution = randomizeSolution(normalBaseSolution, 3, 3);
     const board = removeCells(solution, 51);
 
     return {
