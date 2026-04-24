@@ -4,6 +4,15 @@ import bcrypt from "bcrypt";
 
 const router = express.Router();
 
+const isProduction = process.env.NODE_ENV === "production";
+
+const cookieOptions = {
+    httpOnly: true,
+    sameSite: isProduction ? "none" : "lax",
+    secure: isProduction,
+    path: "/"
+};
+
 router.get("/isLoggedIn", (req, res) => {
     const username = req.cookies.username;
 
@@ -23,14 +32,15 @@ router.get("/isLoggedIn", (req, res) => {
 router.post("/register", async (req, res) => {
     try {
         const { username, password } = req.body;
+        const trimmedUsername = username?.trim();
 
-        if (!username || !password) {
+        if (!trimmedUsername || !password) {
             return res.status(400).json({
                 error: "Username and password are required"
             });
         }
 
-        const existingUser = await User.findOne({ username });
+        const existingUser = await User.findOne({ username: trimmedUsername });
 
         if (existingUser) {
             return res.status(400).json({
@@ -41,20 +51,17 @@ router.post("/register", async (req, res) => {
         const passwordHash = await bcrypt.hash(password, 10);
 
         const newUser = new User({
-            username,
+            username: trimmedUsername,
             password: passwordHash
         });
 
         await newUser.save();
 
-        res.cookie("username", username, {
-            httpOnly: true,
-            sameSite: "lax"
-        });
+        res.cookie("username", trimmedUsername, cookieOptions);
 
         return res.status(201).json({
             message: "User registered successfully",
-            username
+            username: trimmedUsername
         });
     } catch (error) {
         return res.status(500).json({
@@ -66,14 +73,15 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
     try {
         const { username, password } = req.body;
+        const trimmedUsername = username?.trim();
 
-        if (!username || !password) {
+        if (!trimmedUsername || !password) {
             return res.status(400).json({
                 error: "Username and password are required"
             });
         }
 
-        const user = await User.findOne({ username });
+        const user = await User.findOne({ username: trimmedUsername });
 
         if (!user) {
             return res.status(401).json({
@@ -89,14 +97,11 @@ router.post("/login", async (req, res) => {
             });
         }
 
-        res.cookie("username", username, {
-            httpOnly: true,
-            sameSite: "lax"
-        });
+        res.cookie("username", trimmedUsername, cookieOptions);
 
         return res.json({
             message: "Login successful",
-            username
+            username: trimmedUsername
         });
     } catch (error) {
         return res.status(500).json({
@@ -106,7 +111,7 @@ router.post("/login", async (req, res) => {
 });
 
 router.post("/logout", (req, res) => {
-    res.clearCookie("username");
+    res.clearCookie("username", cookieOptions);
 
     return res.json({
         message: "Logout successful"
